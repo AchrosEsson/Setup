@@ -163,6 +163,11 @@ sleep 2
 
 echo 'Kopiere Tmux-Konfigurationen'
 
+
+parent_path=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
+
+cd "$parent_path"
+
 cp /Scripts/tmux/tmux.conf /home/user/.tmux.config
 
 sleep 2
@@ -181,7 +186,10 @@ sleep 2
 
 #### Python Install ####
 
-echo "installiere Python"
+echo "Möchtest du eine Backup-location bestimmen?"
+select yn in "Yes" "No"; do
+    case $yn in
+        Yes ) echo "installiere Python"
 
 sleep 2
 
@@ -189,6 +197,14 @@ apt-get install -y python3-pip
 apt-get install -f
 apt-get install -y python3-venv
 apt-get install -f
+
+break;;
+        No ) exit;;
+    esac
+done
+
+
+
 
 
 
@@ -204,15 +220,10 @@ apt-get install -f
 echo "Möchtest du eine Backup-location bestimmen?"
 select yn in "Yes" "No"; do
     case $yn in
-        Yes ) /bin/bash bachup.sh; break;;
+        Yes ) /bin/bash backup.sh; break;;
         No ) exit;;
     esac
 done
-
-
-echo -n "What is your favorite food : "
-read answer
-echo "Oh! you like $answer!"
 
 
 
